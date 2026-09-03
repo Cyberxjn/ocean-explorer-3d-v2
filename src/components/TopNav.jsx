@@ -10,7 +10,7 @@ export default function TopNav({ activeTab, onTabChange, currentDate }) {
           <Waves size={16} />
         </div>
         <div className="brand-text">
-          <span className="brand-title">Ocean Explorer 3D</span>
+          <span className="brand-title">Ocean Explorer 3D v2</span>
           <span className="brand-subtitle">Interactive Ocean Data Visualization</span>
         </div>
       </div>

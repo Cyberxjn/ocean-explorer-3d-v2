@@ -1,4 +1,4 @@
-# Ocean Explorer 3D — Full-Stack (Real Argo Data)
+# Ocean Explorer 3D v2 — Full-Stack (Real Argo Data)
 
 An interactive 3D ocean-data dashboard: a rotating WebGL globe showing real
 Argo float positions, a FastAPI backend that serves real profile/trajectory

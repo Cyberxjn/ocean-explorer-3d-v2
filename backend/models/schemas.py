@@ -1,4 +1,4 @@
-"""Response models for the Ocean Explorer 3D API.
+"""Response models for the Ocean Explorer 3D v2 API.
 
 These describe the small, frontend-ready JSON shapes returned by our own
 FastAPI routes — not the raw Argovis payloads (see services/argo_service.py

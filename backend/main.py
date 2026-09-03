@@ -1,4 +1,4 @@
-"""Ocean Explorer 3D — backend API.
+"""Ocean Explorer 3D v2 — backend API.
 
 Serves real Argo float data (via Argovis, https://argovis-api.colorado.edu)
 as small, frontend-ready JSON. Run with:
@@ -28,7 +28,7 @@ from services import argo_service  # noqa: E402
 from services.argo_service import ArgoServiceError  # noqa: E402
 
 app = FastAPI(
-    title="Ocean Explorer 3D API",
+    title="Ocean Explorer 3D v2 API",
     description="Lightweight REST API serving real Argo float data from Argovis.",
     version="1.0.0",
 )

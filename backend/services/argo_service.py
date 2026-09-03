@@ -44,7 +44,7 @@ ARGOVIS_API_KEY = os.getenv("ARGOVIS_API_KEY", "").strip()
 CACHE_TTL_SECONDS = int(os.getenv("CACHE_TTL_SECONDS", "900"))
 
 MAX_FLOATS = 60          # hard cap on markers returned to the frontend
-SEARCH_WINDOW_DAYS = 45  # bounded window inside the requested year
+SEARCH_WINDOW_DAYS = 3  # bounded window inside the requested year
 TRAJECTORY_MAX_POINTS = 30
 
 cache = TTLCache(ttl_seconds=CACHE_TTL_SECONDS)

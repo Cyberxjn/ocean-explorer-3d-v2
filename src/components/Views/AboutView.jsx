@@ -2,7 +2,7 @@ export default function AboutView() {
   return (
     <div className="wide-view about-view">
       <div className="wide-view-header">
-        <h2>About Ocean Explorer 3D</h2>
+        <h2>About Ocean Explorer 3D v2</h2>
         <p>A lightweight, interactive frontend for exploring ocean science data.</p>
       </div>
 
@@ -10,7 +10,7 @@ export default function AboutView() {
         <div className="panel-card">
           <div className="panel-card-header"><span>What this is</span></div>
           <p className="about-text">
-            Ocean Explorer 3D is a frontend dashboard for visualizing ocean observation data —
+            Ocean Explorer 3D v2 is a frontend dashboard for visualizing ocean observation data —
             Argo float positions and trajectories, sea surface temperature, salinity, pressure and
             currents — on an interactive 3D globe. It is built to stay fast on an average laptop.
           </p>
