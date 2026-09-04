@@ -1,211 +1,597 @@
-# Ocean Explorer 3D v2 — Full-Stack (Real Argo Data)
+# 🌊 Ocean Explorer 3D v2 — Real-Time Argo Ocean Data
 
-An interactive 3D ocean-data dashboard: a rotating WebGL globe showing real
-Argo float positions, a FastAPI backend that serves real profile/trajectory
-data from Argovis (the public Argo data API), and 2D scientific panels.
+> **An interactive 3D ocean-data visualization platform powered by real Argo float data, Argovis, FastAPI, and WebGL.**
 
-**This is the full-stack version.** The 3D globe UI, layout, sidebar, depth
-control, timeline, charts, and trajectory panel are all unchanged from the
-original frontend-only prototype — only the data underneath is now real.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://cyberxjn.github.io/ocean-explorer-3d-v2/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge\&logo=github)](https://github.com/Cyberxjn/ocean-explorer-3d-v2)
+[![Backend](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge)](https://fastapi.tiangolo.com/)
+[![Data](https://img.shields.io/badge/Data-Argovis%20%2F%20Argo-orange?style=for-the-badge)](https://argovis.colorado.edu/)
+
+**Ocean Explorer 3D v2** is a full-stack interactive ocean-data dashboard that combines a WebGL 3D globe with real-world Argo float observations.
+
+The application allows users to explore floating oceanographic platforms, inspect real measurements, view vertical profiles, and follow historical trajectories through an interactive interface.
 
 ---
 
-## Quick start
+## 🚀 Live Demo
 
-**Terminal 1 — backend**
+### 🌐 [Launch Ocean Explorer 3D v2](https://cyberxjn.github.io/ocean-explorer-3d-v2/)
+
+**Frontend:** GitHub Pages
+**Backend:** FastAPI + Render
+**Data:** Argovis / International Argo Program
+
+> The application uses live upstream oceanographic data where supported. Availability depends on the Argovis service.
+
+---
+
+# ✨ Features
+
+### 🌍 Interactive 3D Ocean Globe
+
+* Interactive WebGL-based Earth
+* Real Argo float locations
+* Globe rotation and navigation
+* Clickable float markers
+* Geographic exploration
+
+### 📊 Real Argo Measurements
+
+When a float is selected, the application can display real recorded measurements including:
+
+* Temperature
+* Salinity
+* Pressure
+* Dissolved Oxygen for BGC floats
+* Profile metadata
+* Measurement levels
+
+### 📈 Vertical Ocean Profiles
+
+Explore how ocean conditions change with depth using real measurements from individual Argo profiles.
+
+### 🛰️ Float Trajectories
+
+View the historical movement of an Argo platform using its recorded profile locations.
+
+### 🔎 Region & Time Filtering
+
+Filter available float observations by:
+
+* Indian Ocean
+* Pacific Ocean
+* Atlantic Ocean
+* Southern Ocean
+* Global coverage
+* Year
+
+### ⚡ Fast API Architecture
+
+The frontend communicates with a FastAPI backend instead of directly querying Argovis.
+
+This provides:
+
+* API abstraction
+* Error handling
+* CORS configuration
+* Response validation
+* Server-side caching
+* Cleaner frontend data handling
+
+---
+
+# 🧬 Data Pipeline
+
+```text
+                 ┌─────────────────────┐
+                 │   Argo Float Data   │
+                 │ International Argo  │
+                 │       Network       │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │      Argovis        │
+                 │   Public Argo API   │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │      FastAPI        │
+                 │      Backend       │
+                 └──────────┬──────────┘
+                            │
+                  JSON API responses
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │   React + WebGL     │
+                 │    Frontend         │
+                 └──────────┬──────────┘
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │  Interactive 3D     │
+                 │   Ocean Explorer    │
+                 └─────────────────────┘
+```
+
+---
+
+# 🧪 What's Real vs Sample Data
+
+## ✅ Real Data
+
+The following components use real data retrieved through the backend from Argovis:
+
+* Argo float positions
+* Float IDs
+* Observation dates
+* Temperature measurements
+* Salinity measurements
+* Pressure measurements
+* Dissolved oxygen when available
+* Individual profile data
+* Historical float trajectories
+* Region filters
+* Year/date filtering
+
+## 🧩 Sample / Procedural Data
+
+Some visualization layers remain procedural/sample data:
+
+* Sea Surface Temperature 2D panel
+* Ocean current visualization
+* Temperature overlay texture
+* Current particle animation
+* Depth preview strips
+* Timeseries preview graph
+
+These are clearly separated in the codebase so they can later be replaced by real gridded datasets such as satellite, NOAA, Copernicus, or gridded Argo products.
+
+---
+
+# 🏗️ Architecture
+
+```text
+React / Vite Frontend
+        │
+        │ REST API
+        ▼
+FastAPI Backend
+        │
+        ├── Argo Service
+        ├── Response Models
+        ├── Caching Layer
+        └── Error Handling
+        │
+        ▼
+Argovis API
+        │
+        ▼
+International Argo Data
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### Frontend
+
+* React
+* Vite
+* JavaScript / JSX
+* WebGL
+* Interactive 3D visualization
+* CSS
+
+### Backend
+
+* Python
+* FastAPI
+* Pydantic
+* REST API
+* In-memory TTL caching
+
+### Ocean Data
+
+* Argovis
+* International Argo Program
+* Argo profile observations
+* Temperature / Salinity / Pressure
+* BGC Dissolved Oxygen
+
+### Deployment
+
+* GitHub Pages
+* Render
+* GitHub Actions
+
+---
+
+# 📂 Project Structure
+
+```text
+ocean-explorer-3d-v2/
+│
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── .env.example
+│   │
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── schemas.py
+│   │
+│   └── services/
+│       ├── __init__.py
+│       ├── argo_service.py
+│       └── cache.py
+│
+├── src/
+│   ├── components/
+│   ├── data/
+│   │   ├── sampleArgoData.js
+│   │   └── sampleOceanData.js
+│   │
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── argoService.js
+│   │   ├── argoData.js
+│   │   ├── oceanService.js
+│   │   └── oceanData.js
+│   │
+│   ├── App.jsx
+│   └── App.css
+│
+├── index.html
+├── package.json
+└── README.md
+```
+
+---
+
+# ⚡ Quick Start
+
+## 1. Clone
+
+```bash
+git clone https://github.com/Cyberxjn/ocean-explorer-3d-v2.git
+cd ocean-explorer-3d-v2
+```
+
+---
+
+## 2. Start Backend
 
 ```bash
 cd backend
+
 python3 -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+source .venv/bin/activate
+```
+
+### Windows
+
+```powershell
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
-cp .env.example .env             # optional, defaults work out of the box
+```
+
+Optional environment file:
+
+```bash
+cp .env.example .env
+```
+
+Start FastAPI:
+
+```bash
 uvicorn main:app --reload
 ```
 
-Backend runs at `http://localhost:8000`. Check `http://localhost:8000/api/health`.
+Backend:
 
-**Terminal 2 — frontend**
+```text
+http://localhost:8000
+```
+
+Health check:
+
+```text
+http://localhost:8000/api/health
+```
+
+API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+# 💻 Frontend
+
+Open another terminal:
 
 ```bash
+cd ocean-explorer-3d-v2
 npm install
-cp .env.example .env             # optional, defaults already point at :8000
+```
+
+Optional:
+
+```bash
+cp .env.example .env
+```
+
+Start development server:
+
+```bash
 npm run dev
 ```
 
-Open the URL Vite prints (usually `http://localhost:5173`).
+Vite normally starts at:
 
-You should see real Argo float markers appear on the globe within a few
-seconds of load. Click one to see its real measurements.
-
----
-
-## What's real vs. what's still sample data
-
-**Real (live from Argovis / the official Argo GDAC network):**
-- Argo float marker positions on the globe (`GET /api/argo/floats`)
-- A float's real temperature, salinity, pressure, and (when the float is a
-  BGC float) dissolved-oxygen measurements per depth level, shown in the
-  popup and the Vertical Profile / Vertical Section charts
-  (`GET /api/argo/profile/{id}`)
-- A float's real historical trajectory, built from that platform's other
-  profile locations over time (`GET /api/argo/trajectory/{id}`)
-- Year and region controls, which are sent to the backend as real query
-  filters (bounding box + date window)
-
-**Still sample/procedural data (clearly labeled in the UI):**
-- The Sea Surface Temperature and Ocean Currents 2D panels on the right
-- The globe's optional temperature-overlay texture and the current-particle
-  animation
-- The three "at various depths" preview strips at the bottom, and the
-  Timeseries tab's trend line
-
-These are all generated in `src/data/sampleOceanData.js`. Argovis serves
-*point* profiles, not pre-gridded fields, so a real version of these would
-need a separate gridded product (e.g. a gridded Argo climatology, or
-NOAA/Copernicus SST) — a reasonable next step, out of scope here.
-
----
-
-## Data source
-
-**[Argovis](https://argovis.colorado.edu)** (`https://argovis-api.colorado.edu`),
-a public REST API built and maintained by CU Boulder, serving the official
-international Argo float program's data — the same data the Argo GDACs
-(Ifremer, Coriolis, AOML, etc.) distribute as NetCDF, indexed for fast
-queries. Citable at https://doi.org/10.17882/42182.
-
-**No account or API key required.** Requests work anonymously; Argovis just
-throttles anonymous traffic more aggressively under heavy load. If you want
-a higher rate limit, get a free key at https://argovis-keygen.colorado.edu/
-and put it in `backend/.env` as `ARGOVIS_API_KEY` — never commit that file.
-
----
-
-## API reference
-
-| Route | Description |
-|---|---|
-| `GET /api/health` | `{status, upstream}` — checks Argovis reachability too |
-| `GET /api/argo/floats?region=indian_ocean&year=2024&limit=40` | Lightweight list of real float positions |
-| `GET /api/argo/profile/{float_id}` | Full real profile (all recorded levels) for one float, e.g. `1901094_109` |
-| `GET /api/argo/trajectory/{float_id}` | Real historical positions for that float's platform |
-
-`region` accepts: `indian_ocean`, `pacific_ocean`, `atlantic_ocean`,
-`southern_ocean` (omit for global). `float_id` is Argovis's own profile id,
-format `{WMO}_{cycle}`, e.g. `1901094_109`.
-
-Interactive API docs: `http://localhost:8000/docs`.
-
----
-
-## Design decisions worth knowing about
-
-- **Floats list is deliberately lightweight.** It requests only
-  location/date/id from Argovis — not per-level measurements — so listing
-  ~40 floats stays fast. Full measurements are fetched only when you click
-  a marker.
-- **Bounded time window, not the whole year.** Requesting every profile in
-  a whole ocean basin for a full year could mean a very large, slow
-  response. Each floats request is bounded to a ~45-day window inside the
-  selected year (ending at year-end, or "now" for the current year), capped
-  at 60 markers. This is a real, filtered *subset*, not a fabricated one —
-  see `SEARCH_WINDOW_DAYS` / `MAX_FLOATS` in `backend/services/argo_service.py`
-  if you want to widen it.
-- **Depth = pressure, not a true depth conversion.** Argo floats measure
-  pressure (dbar); this app uses the standard oceanographic rule-of-thumb
-  that 1 dbar ≈ 1 m, same as most lightweight ocean dashboards. It is *not*
-  a TEOS-10 pressure-to-depth conversion.
-- **The depth slider picks the nearest real recorded level — it never
-  interpolates.** Argo profiles have irregular level spacing; the popup is
-  explicit that it's showing the nearest measured level, not an exact match
-  for the slider's depth.
-- **In-memory caching.** Repeated requests for the same floats query or the
-  same float's profile/trajectory are cached for 15 minutes
-  (`CACHE_TTL_SECONDS` in `backend/.env`) to avoid hammering Argovis,
-  especially while the timeline is auto-playing.
-- **Oxygen only shows when present.** Only BGC (biogeochemical) Argo floats
-  carry oxygen sensors; the popup and profile charts hide that row/chart
-  entirely for floats that don't have it, rather than showing a fake value.
-
----
-
-## Environment variables
-
-**Frontend** (`.env`, see `.env.example`):
+```text
+http://localhost:5173
 ```
+
+---
+
+# 🔌 API Endpoints
+
+| Endpoint                              | Description                     |
+| ------------------------------------- | ------------------------------- |
+| `GET /api/health`                     | Backend + Argovis health status |
+| `GET /api/argo/floats`                | Real Argo float locations       |
+| `GET /api/argo/profile/{float_id}`    | Complete profile for a float    |
+| `GET /api/argo/trajectory/{float_id}` | Historical float trajectory     |
+
+Example:
+
+```text
+/api/argo/floats?region=indian_ocean&year=2024&limit=40
+```
+
+Example profile:
+
+```text
+/api/argo/profile/1901094_109
+```
+
+---
+
+# 🌊 How the Float System Works
+
+The float listing intentionally requests lightweight metadata first.
+
+Instead of downloading complete measurements for every float:
+
+```text
+Load Globe
+    ↓
+Fetch float locations
+    ↓
+Display markers
+    ↓
+User clicks a marker
+    ↓
+Fetch complete profile
+    ↓
+Display measurements
+```
+
+This keeps the initial dashboard responsive and avoids unnecessary API requests.
+
+---
+
+# 📐 Depth Handling
+
+Argo observations record **pressure**, normally in decibars (dbar).
+
+This project uses the common lightweight approximation:
+
+```text
+1 dbar ≈ 1 meter
+```
+
+The application does not claim this to be a full TEOS-10 pressure-to-depth conversion.
+
+The depth slider selects the **nearest recorded measurement level** rather than interpolating artificial values between observations.
+
+---
+
+# 🫧 BGC / Oxygen Support
+
+Dissolved oxygen is only displayed when the selected Argo float actually contains oxygen observations.
+
+The application does **not** generate fake oxygen measurements for floats without BGC sensors.
+
+---
+
+# ⚡ Caching
+
+The backend includes an in-memory TTL cache.
+
+Repeated requests for:
+
+* Float lists
+* Profiles
+* Trajectories
+
+can be served from cache for a configured period.
+
+Default:
+
+```text
+CACHE_TTL_SECONDS=900
+```
+
+This helps reduce repeated requests to Argovis while users explore the dashboard.
+
+---
+
+# 🔐 Environment Variables
+
+### Frontend
+
+```env
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
-**Backend** (`backend/.env`, see `backend/.env.example`):
-```
-ARGOVIS_API_KEY=                # optional
+### Backend
+
+```env
+ARGOVIS_API_KEY=
 CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ARGOVIS_BASE_URL=https://argovis-api.colorado.edu
 CACHE_TTL_SECONDS=900
 ```
 
-No secrets are required for the first working version, and nothing frontend
-ever holds a credential — the optional Argovis key lives only in
-`backend/.env`, which is git-ignored.
+An Argovis API key is optional.
+
+**Never commit `.env` files or API credentials.**
 
 ---
 
-## Limitations / honesty check
+# 🧭 Original Project & V1
 
-- **Not tested end-to-end by the assistant.** This project was built and
-  code-reviewed in a sandbox without npm/PyPI registry access, so
-  `npm install`, `pip install`, and an actual `uvicorn` + `vite dev` run
-  could not be executed here. Every file was syntax-checked
-  (`py_compile` for Python, bracket-balance checks for JS/JSX), and the
-  Argovis query patterns were taken directly from the official `argopy`
-  client's source and verified once with a live request during
-  development — but please run it and report back if anything doesn't
-  come up clean.
-- One soft assumption: the exact key names inside Argovis's per-level
-  `data` payload (`pressure`, `temperature`, `salinity`, `doxy`) are
-  inferred from Argovis's `data_info` field names and `argopy`'s query
-  construction, not confirmed against a live `data=...` response (the
-  research tool used to explore the API cached earlier responses and
-  wouldn't re-fetch with different query params). If float markers appear
-  but clicking one returns an empty profile, this is the first thing to
-  check — add a `print(raw)` in `backend/services/argo_service.py`'s
-  `get_profile()` right after the `_get()` call.
-- Argovis is a community research API, not a guaranteed-uptime commercial
-  service. If it's slow or briefly down, `/api/health` will report
-  `upstream: "unreachable"` and float requests will fail with a clear error
-  surfaced in the UI (a banner + inline popup message) rather than silently
-  falling back to fake data.
-- The 2D gridded panels (SST map, currents, depth-preview strips,
-  timeseries) are still sample data, as documented above.
-- No automated tests were added (none existed in the original project).
+This project builds upon the original **Ocean Explorer 3D** frontend prototype created by **Riddhima Dixit**.
+
+### Original V1 Repository
+
+🔗 **[RiddhimaDixit1/open-explorer-3d](https://github.com/RiddhimaDixit1/open-explorer-3d)**
+
+The original project provided the foundation for the interactive ocean-exploration concept and frontend experience.
+
+**Ocean Explorer 3D v2** extends that work by introducing a full-stack architecture and real Argo data integration, including:
+
+* FastAPI backend
+* Argovis integration
+* Real float positions
+* Real profile measurements
+* Real float trajectories
+* API-based data fetching
+* Server-side caching
+* Production deployment
+* Additional data handling and fixes
+
+> **Credit:** The original concept and V1 implementation are attributed to **Riddhima Dixit**. This repository represents my independent V2 development, modifications, integrations, fixes, and deployment work based on that foundation.
 
 ---
 
-## Project structure
+# 🏆 Smart India Hackathon Context
 
-```
-backend/
-  main.py                 FastAPI app, routes, CORS
-  requirements.txt
-  .env.example
-  services/
-    argo_service.py       Real Argovis integration
-    cache.py               In-memory TTL cache
-  models/
-    schemas.py             Pydantic response models
+The project is related to the broader **Smart India Hackathon (SIH) ocean-data problem space**, particularly the challenge of making large and complex Argo/oceanographic datasets easier to explore and visualize.
 
-src/
-  services/
-    api.js                 fetch wrapper (base URL, error handling)
-    argoService.js         raw backend calls
-    argoData.js             adapter -> shape used by UI components (real data)
-    oceanService.js         re-exports sample ocean fields (documented as mock)
-    oceanData.js             (unchanged) procedural sample generators
-  components/               (unchanged) Globe, Sidebar, DataPanel, Timeline, Views
-  data/
-    sampleArgoData.js       legacy mock floats (no longer used, kept for reference)
-    sampleOceanData.js       procedural gridded-field generators (still used)
-  App.jsx                   wiring: real data fetching, depth-slider logic
-  App.css                    (extended) loading/error banner styles
-```
+One relevant SIH 2025 problem statement was **PS 25040 — FloatChat: AI-Powered Conversational Interface for ARGO Ocean Data Discovery and Visualization**, focused on making Argo data more accessible through an interactive data platform.
+
+This project focuses specifically on the **interactive 3D visualization and real-data exploration side** of that problem space.
+
+---
+
+# 🎯 Future Improvements
+
+Planned / possible improvements include:
+
+* Real gridded SST datasets
+* Real ocean-current datasets
+* Copernicus Marine integration
+* NOAA data integration
+* Complete Argo trajectory visualization
+* BGC parameter support
+* Chlorophyll visualization
+* Oxygen visualization layers
+* NetCDF data export
+* CSV profile export
+* Advanced ocean-depth visualization
+* More accurate pressure-to-depth conversion
+* PostgreSQL/PostGIS storage
+* AI-powered natural-language ocean-data queries
+
+---
+
+# ⚠️ Current Limitations
+
+Some visualization panels still use procedural/sample data because Argovis primarily provides point/profile observations rather than complete gridded ocean fields.
+
+For true gridded visualizations, dedicated datasets such as Copernicus Marine, NOAA products, or gridded Argo products would be required.
+
+Argovis is also a public research-oriented API, so temporary upstream downtime or throttling may affect live data requests.
+
+---
+
+# 📚 Data Sources
+
+### Argovis
+
+**Argovis — CU Boulder**
+
+https://argovis.colorado.edu/
+
+Public API:
+
+https://argovis-api.colorado.edu/
+
+Argovis provides indexed access to observations from the international Argo program.
+
+### Argo Global Data Assembly
+
+The underlying Argo program distributes oceanographic observations through the global Argo data system.
+
+Dataset reference:
+
+https://doi.org/10.17882/42182
+
+---
+
+# 🙏 Acknowledgments
+
+Special thanks to:
+
+* **Riddhima Dixit** — Original Ocean Explorer 3D V1 project and frontend foundation
+* **Argovis / CU Boulder** — Public Argo data API
+* **International Argo Program** — Oceanographic observations
+* **Smart India Hackathon ecosystem** — Problem-space inspiration and context
+
+---
+
+# 👨‍💻 Developer
+
+### Cyberxjn
+
+GitHub:
+
+**https://github.com/Cyberxjn**
+
+Project:
+
+**https://github.com/Cyberxjn/ocean-explorer-3d-v2**
+
+Live Demo:
+
+**https://cyberxjn.github.io/ocean-explorer-3d-v2/**
+
+---
+
+# 📄 License
+
+See the repository's license and the original project's licensing terms before redistributing or reusing code.
+
+This V2 repository contains modifications and integrations built on top of the original V1 project. Third-party APIs, datasets, libraries, and assets remain subject to their respective licenses and terms.
+
+---
+
+<p align="center">
+
+### 🌊 Explore the Ocean. Visualize the Data. Discover the Unknown.
+
+**Ocean Explorer 3D v2**
+
+</p>
