@@ -455,41 +455,18 @@ def _extract_levels(doc: dict) -> tuple[list[dict], bool]:
 
 
 async def get_profile(float_id: str) -> dict:
-    """
-    Fetch one real Argo profile.
-
-    Important:
-    Argovis expects repeated `data` query parameters rather than one
-    comma-separated value.
-
-    Example:
-
-        ?id=1902190_244
-        &data=pressure
-        &data=temperature
-        &data=salinity
-    """
+    """Fetch one real Argo profile using Argovis data=all."""
 
     cache_key = f"profile:{float_id}"
 
     async def fetch():
-
         params = [
             ("id", float_id),
-            ("data", "pressure"),
-            ("data", "temperature"),
-            ("data", "salinity"),
+            ("data", "all"),
         ]
+        return await _get("/argo", params)
 
-        return await _get(
-            "/argo",
-            params,
-        )
-
-    raw = await cache.get_or_set_async(
-        cache_key,
-        fetch,
-    )
+    raw = await cache.get_or_set_async(cache_key, fetch)
 
     if not raw:
         raise ArgoServiceError(
@@ -510,13 +487,10 @@ async def get_profile(float_id: str) -> dict:
     levels, has_oxygen = _extract_levels(doc)
 
     source_url = None
-
     sources = doc.get("source") or []
 
     if isinstance(sources, list) and sources:
-
         first_source = sources[0]
-
         if isinstance(first_source, dict):
             source_url = first_source.get("url")
 
